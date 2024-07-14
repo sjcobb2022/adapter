@@ -5,8 +5,3 @@ pub trait Adapter<'a, Input, Output, Identifier, Error> {
     // TODO: Use associated types?
     fn call(&'a mut self, identifier: Identifier, input: Input) -> Result<Output, Error>;
 }
-
-#[cfg(test)]
-mod tests {
-    use super::*;
-}

@@ -1,1 +1,1 @@
-workspace = { members = ["adapter", "adapter-extism", "adapter-libloading"] }
+workspace = { members = ["adapter", "adapter-extism", "adapter-libloading", "adapter-mlua"] }
