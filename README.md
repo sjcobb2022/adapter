@@ -16,7 +16,7 @@ pub trait Adapter<'a, Input, Output, Identifier, Error> {
 }
 ```
 
-An adapter is generic over the input, output, identifier and error that is uses. It takes in an identifier and an input, and returns a result with the output or an error. Given that it is generic over these types, we can form implementations that can be further type-bound to conform to plugin specific requirements.
+An adapter is generic over the input, output, identifier and error that is uses. It takes in an identifier and an input, and returns a result with the output or an error. By being generic, we can require stricter traits be applied to our inputs and outputs.
 
 ## Repository Structure
 - adapter: The adapter trait implementation.
