@@ -53,6 +53,8 @@ jobs:
       - name: cargo update
         if: hashFiles('Cargo.lock') != ''
         run: cargo update
+      - name: Intall lua
+        run: sudo apt-get install -y --no-install-recommends liblua5.4-dev
       - name: cargo test
         if: hashFiles('Cargo.lock') != ''
         run: cargo test --locked --all-features --all-targets
