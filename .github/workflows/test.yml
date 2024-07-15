@@ -109,6 +109,7 @@ jobs:
       - name: cargo generate-lockfile
         if: hashFiles('Cargo.lock') == ''
         run: cargo generate-lockfile
+      - uses: ilammy/msvc-dev-cmd@v1
       - uses: leafo/gh-actions-lua@v10
       - name: cargo test
         run: cargo test --locked --all-features --all-targets
