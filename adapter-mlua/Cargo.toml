@@ -7,4 +7,4 @@ edition = "2021"
 
 [dependencies]
 adapter = { version = "0.1.0", path = "../adapter" }
-mlua = { version = "0.9.6", features = ["lua54"] }
+mlua = { version = "=0.9.6", features = ["lua54"] }
