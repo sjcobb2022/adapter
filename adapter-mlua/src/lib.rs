@@ -1,6 +1,6 @@
 use adapter::Adapter;
 
-use mlua::prelude::*;
+use mlua::{prelude::*, AsChunk};
 
 struct MLuaAdapter {
     lua: Lua,
@@ -16,11 +16,12 @@ impl<'a, 'b, Input, Output, Identifier> Adapter<'b, Input, Output, Identifier, m
     for MLuaAdapter
 where
     // TODO: Convert to generic associated impl type when stable.
-    Identifier: AsRef<str>,
+    Identifier: for<'c, 'd> AsChunk<'c, 'd>,
+    Input: IntoLuaMulti<'b>,
+    Output: FromLuaMulti<'b>,
 {
     fn call(&'b mut self, identifier: Identifier, input: Input) -> Result<Output, mlua::Error> {
         self.lua.load(identifier).call::<Input, Output>(input)
-        // self.lua.
     }
 }
 
