@@ -72,6 +72,8 @@ jobs:
         uses: dtolnay/rust-toolchain@stable
         with:
           components: rustfmt
+      - name: Intall lua
+        run: sudo apt-get install -y --no-install-recommends liblua5.4-dev
       - name: cargo-semver-checks
         uses: obi1kenobi/cargo-semver-checks-action@v2
   doc:
@@ -101,6 +103,8 @@ jobs:
           submodules: true
       - name: Install stable
         uses: dtolnay/rust-toolchain@stable
+      - name: Intall lua
+        run: sudo apt-get install -y --no-install-recommends liblua5.4-dev
       - name: cargo install cargo-hack
         uses: taiki-e/install-action@cargo-hack
       # intentionally no target specifier; see https://github.com/jonhoo/rust-ci-conf/pull/4
