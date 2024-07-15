@@ -64,6 +64,7 @@ jobs:
   semver:
     runs-on: ubuntu-latest
     name: semver
+    if: false # TODO: Update this when on cargo
     steps:
       - uses: actions/checkout@v4
         with:
