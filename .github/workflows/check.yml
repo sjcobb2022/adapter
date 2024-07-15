@@ -32,6 +32,8 @@ jobs:
         uses: dtolnay/rust-toolchain@stable
         with:
           components: rustfmt
+      - name: Intall lua
+        run: sudo apt-get install -y --no-install-recommends liblua5.4-dev
       - name: cargo fmt --check
         run: cargo fmt --check
   clippy:

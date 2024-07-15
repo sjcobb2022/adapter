@@ -24,6 +24,8 @@ jobs:
           submodules: true
       - name: Install nightly
         uses: dtolnay/rust-toolchain@nightly
+      - name: Intall lua
+        run: sudo apt-get install -y --no-install-recommends liblua5.4-dev
       - name: cargo generate-lockfile
         if: hashFiles('Cargo.lock') == ''
         run: cargo generate-lockfile
