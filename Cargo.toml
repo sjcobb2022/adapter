@@ -1,5 +1,3 @@
 [workspace]
 resolver = "2"
 members = ["adapter", "adapter-extism", "adapter-libloading", "adapter-mlua"]
-# Remove mlua so that we don't run tests with the current actions.
-# default-members = ["adapter", "adapter-extism", "adapter-libloading"]
