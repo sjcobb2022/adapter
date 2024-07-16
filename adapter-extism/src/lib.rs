@@ -1,3 +1,4 @@
+#![feature(impl_trait_in_assoc_type)]
 use adapter::Adapter;
 
 use extism::{FromBytes, Manifest, Plugin, ToBytes, Wasm};
@@ -17,16 +18,22 @@ impl ExtismAdapter {
     }
 }
 
-impl<'a, 'b, Input, Output, Identifier> Adapter<'b, Input, Output, Identifier, extism::Error>
-    for ExtismAdapter
+impl<'b, Input, Output> Adapter<'b, Input, Output> for ExtismAdapter
 where
     // TODO: Convert to generic associated impl type when stable.
-    Input: ToBytes<'a>,
+    Input: ToBytes<'b>,
     Output: FromBytes<'b>,
-    Identifier: AsRef<str>,
 {
-    fn call(&'b mut self, identifier: Identifier, input: Input) -> Result<Output, extism::Error> {
-        self.0.call(identifier, input)
+    type Error = extism::Error;
+    type Identifier = &'b str;
+
+    fn call(
+        &'b mut self,
+        identifier: Self::Identifier,
+        input: Input,
+    ) -> Result<Output, Self::Error> 
+    {
+        self.0.call::<Input, Output>(identifier, input)
     }
 }
 

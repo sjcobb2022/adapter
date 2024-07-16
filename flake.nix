@@ -13,7 +13,8 @@
     in {
       devShells.default = pkgs.mkShell {
         buildInputs = with pkgs; [
-          cargo
+          # cargo
+          rustup
           lua5_4_compat
           pkg-config
           rust-analyzer
