@@ -8,6 +8,7 @@ authors = ["Samuel Cobb"]
 repository = "https://github.com/sjcobb2022/adapter"
 homepage = "https://github.com/sjcobb2022/adapter"
 description = """An Adapter for adapting the mlua library to the Adapter API."""
+readme = "../README.md"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
