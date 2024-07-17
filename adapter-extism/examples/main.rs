@@ -13,7 +13,19 @@ fn main() {
     let identifier = "count_vowels";
     let input = "Hello, world!";
 
-    let ours: &str = adapter.call(identifier, input).unwrap();
+    let output: &str = adapter.call(identifier, input).unwrap();
 
-    println!("{}", ours);
+    assert_eq!(output, r#"{"count":3,"total":3,"vowels":"aeiouAEIOU"}"#);
+
+    let generic_output = generic_function(&mut adapter, identifier, input).unwrap();
+
+    assert_eq!(generic_output, r#"{"count":3,"total":6,"vowels":"aeiouAEIOU"}"#);
+
+}
+
+fn generic_function<'a, T>(adapter: &'a mut T, identifier: T::Identifier, input: &'a str) -> Result<&'a str, T::Error>
+where
+    T: Adapter<'a, &'a str, &'a str> + 'a,
+{
+    adapter.call(identifier, input)
 }

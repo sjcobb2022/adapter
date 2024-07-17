@@ -1,6 +1,10 @@
 /// The Adapter trait is used to define the interface for an adapter.
 /// An adapter is a component that is used to convert the input from a client
 /// into a format that is understood by the service.
+
+pub trait AdapterInput<'a> {}
+pub trait AdapterOutput<'a> {}
+
 pub trait Adapter<'a, Input, Output> {
     type Error;
     type Identifier;
@@ -15,4 +19,8 @@ pub trait Adapter<'a, Input, Output> {
         identifier: Self::Identifier,
         input: Input,
     ) -> Result<Output, Self::Error>;
+    // fn call<Input, Output>(&'a mut self, identifier: Self::Identifier, input: Input) -> Result<Output, Self::Error>
+    //     where
+    //         Input: AdapterInput<'a>,
+    //         Output: AdapterOutput<'a>;
 }
