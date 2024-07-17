@@ -14,16 +14,11 @@ impl LibloadingAdapter {
     }
 }
 
-impl<'a, Input, Output> Adapter<'a, Input, Output> for LibloadingAdapter
-{
+impl<'a, Input, Output> Adapter<'a, Input, Output> for LibloadingAdapter {
     type Error = libloading::Error;
     type Identifier = &'a [u8];
 
-    fn call(
-        &'a mut self,
-        identifier: Self::Identifier,
-        input: Input,
-    ) -> Result<Output, Self::Error> 
+    fn call(&'a mut self, identifier: Self::Identifier, input: Input) -> Result<Output, Self::Error>
     where
         Self::Identifier: AsRef<[u8]>,
     {
