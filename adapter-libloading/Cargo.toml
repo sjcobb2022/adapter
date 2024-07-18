@@ -1,10 +1,17 @@
 [package]
 name = "adapter-libloading"
-version = "0.1.0"
+version = "0.1.1"
 edition = "2021"
+license = "MIT"
+keywords = ["adapter", "plugin", "generic", "libloading", "dynamic"]
+authors = ["Samuel Cobb"]
+repository = "https://github.com/sjcobb2022/adapter"
+homepage = "https://github.com/sjcobb2022/adapter"
+description = """An Adapter for adapting the libloading library to the Adapter API."""
+readme = "../README.md"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-adapter = { version = "0.1.0", path = "../adapter" }
+adapter = { version = "0.1.1", path = "../adapter" }
 libloading = "0.8.4"

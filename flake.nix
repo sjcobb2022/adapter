@@ -13,12 +13,13 @@
     in {
       devShells.default = pkgs.mkShell {
         buildInputs = with pkgs; [
-          cargo
+          # cargo
+          # rust-analyzer
+          # clippy
+          # rustfmt
+          rustup
           lua5_4_compat
           pkg-config
-          rust-analyzer
-          clippy
-          rustfmt
           vscode-extensions.vadimcn.vscode-lldb.adapter
         ];
       };
