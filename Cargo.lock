@@ -4,11 +4,11 @@ version = 3
 
 [[package]]
 name = "adapter"
-version = "0.1.1"
+version = "0.2.0"
 
 [[package]]
 name = "adapter-extism"
-version = "0.1.1"
+version = "0.2.0"
 dependencies = [
  "adapter",
  "extism",
@@ -16,7 +16,7 @@ dependencies = [
 
 [[package]]
 name = "adapter-libloading"
-version = "0.1.1"
+version = "0.2.0"
 dependencies = [
  "adapter",
  "libloading",
@@ -24,7 +24,7 @@ dependencies = [
 
 [[package]]
 name = "adapter-mlua"
-version = "0.1.1"
+version = "0.2.0"
 dependencies = [
  "adapter",
  "mlua",
