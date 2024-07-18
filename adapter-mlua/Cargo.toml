@@ -1,6 +1,6 @@
 [package]
 name = "adapter-mlua"
-version = "0.1.1"
+version = "0.2.0"
 edition = "2021"
 license = "MIT"
 keywords = ["adapter", "plugin", "generic", "lua", "mlua"]
@@ -13,6 +13,6 @@ readme = "../README.md"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-adapter = { version = "0.1.1", path = "../adapter" }
+adapter = { version = "0.2.0", path = "../adapter" }
 # Locked version for MSRV 
 mlua = { version = "0.9.9", features = ["lua54"] }
