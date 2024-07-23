@@ -1,3 +1,6 @@
+extern crate adapter;
+extern crate libloading;
+
 use adapter::Adapter;
 use libloading::{Library, Symbol};
 
@@ -14,14 +17,13 @@ impl LibloadingAdapter {
     }
 }
 
-impl<'a, Input, Output> Adapter<'a, Input, Output> for LibloadingAdapter {
+impl<'a, Input, Output, Identifier> Adapter<'a, Input, Output, Identifier> for LibloadingAdapter
+where
+    Identifier: AsRef<[u8]>,
+{
     type Error = libloading::Error;
-    type Identifier = &'a [u8];
 
-    fn call(&'a mut self, identifier: Self::Identifier, input: Input) -> Result<Output, Self::Error>
-    where
-        Self::Identifier: AsRef<[u8]>,
-    {
+    fn call(&'a mut self, identifier: Identifier, input: Input) -> Result<Output, Self::Error> {
         // may be a good idea to cache these.
         let symbol: Symbol<fn(Input) -> Output> =
             match unsafe { self.library.get(identifier.as_ref()) } {
@@ -33,18 +35,6 @@ impl<'a, Input, Output> Adapter<'a, Input, Output> for LibloadingAdapter {
     }
 }
 
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    #[test]
-    fn test_libloading_works() {
-        // TODO: impl testing
-
-        // let mut adapter = LibloadingAdapter::from_path("some_path").unwrap();
-        //
-        // let res:  = adapter
-        //     .call("some_identifier", "some_input".to_string())
-        //     .unwrap();
-    }
+fn main() {
+    println!("Unimplemeted");
 }

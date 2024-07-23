@@ -1,36 +1,12 @@
+extern crate adapter;
+extern crate mlua;
+
+#[path = "./mod.rs"]
+mod mlua_adapter;
+
 use adapter::Adapter;
-
-use mlua::{prelude::*, AsChunk};
-
-struct MLuaAdapter {
-    lua: Lua,
-}
-
-impl MLuaAdapter {
-    fn new() -> Self {
-        MLuaAdapter { lua: Lua::new() }
-    }
-}
-
-impl<'b, Input, Output> Adapter<'b, Input, Output> for MLuaAdapter
-where
-    // TODO: Convert to generic associated impl type when stable.
-    // Identifier: for<'c, 'd> AsChunk<'c, 'd>,
-    Input: IntoLuaMulti<'b>,
-    Output: FromLuaMulti<'b>,
-{
-    type Error = mlua::Error;
-    type Identifier = &'b str
-        where Self::Identifier: for<'d> AsChunk<'d, 'b>;
-
-    fn call(
-        &'b mut self,
-        identifier: Self::Identifier,
-        input: Input,
-    ) -> Result<Output, Self::Error> {
-        self.lua.load(identifier).call::<Input, Output>(input)
-    }
-}
+use mlua::prelude::*;
+use mlua_adapter::MLuaAdapter;
 
 #[cfg(test)]
 mod tests {
@@ -46,10 +22,11 @@ mod tests {
     }
 
     #[test]
-    fn it_can_call_to_stdio() {
+    fn it_can_call_basic_functions() {
         let mut adapter = MLuaAdapter::new();
+
         {
-            let lua = &adapter.lua;
+            let lua = &adapter.0;
 
             let globals = lua.globals();
 
@@ -70,13 +47,13 @@ mod tests {
             (),
         );
 
-        assert_eq!(out.unwrap(), false);
+        assert!(!out.unwrap());
 
         let out: Result<bool, LuaError> = adapter.call(
             r#"return check_equal({"a", "b", "c"}, {"a", "b", "c"})"#,
             (),
         );
 
-        assert_eq!(out.unwrap(), true);
+        assert!(out.unwrap());
     }
 }

@@ -1,3 +1,23 @@
-[workspace]
-resolver = "2"
-members = ["adapter", "adapter-extism", "adapter-libloading", "adapter-mlua"]
+[package]
+name = "adapter"
+version = "0.3.0"
+edition = "2021"
+license = "MIT"
+keywords = ["adapter", "plugin", "generic"]
+authors = ["Samuel Cobb"]
+repository = "https://github.com/sjcobb2022/adapter"
+homepage = "https://github.com/sjcobb2022/adapter"
+description = """
+Adapter provides a generic interface for plugins to interact with a
+host application.
+"""
+readme = "README.md"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+
+[dev-dependencies]
+mlua = { version = "0.9.9", features = ["lua54"] }
+libloading = "0.8.4"
+extism = "1.4.1"

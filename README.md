@@ -11,15 +11,13 @@ The key concept of this library is the Adapter trait. It hinges on the idea that
 
 
 ```rust
-pub trait Adapter<'a, Input, Output, Identifier, Error> {
-    fn call(&'a mut self, identifier: Identifier, input: Input) -> Result<Output, Error>;
+pub trait Adapter<'a, Input, Output, Identifier> {
+    type Error;
+
+    fn call(&'a mut self, identifier: Identifier, input: Input) -> Result<Output, Self::Error>;
 }
 ```
 
-An adapter is generic over the input, output, identifier and error that is uses. It takes in an identifier and an input, and returns a result with the output or an error. By being generic, we can require stricter traits be applied to our inputs and outputs.
-
-## Repository Structure
-- adapter: The adapter trait implementation.
-- adapter-extism: An adapter for the extism library.
-- adapter-libloading: An adapter for dynamic libraries. 
-- adapter-mlua: An adapter for including lua via mlua.
+An adapter is generic ovpub trait Adapter<'a, Input, Output, Identifier, Error> {
+    fn call(&'a mut self, identifier: Identifier, input: Input) -> Result<Output, Error>;
+}er the input, output, identifier and error that is uses. It takes in an identifier and an input, and returns a result with the output or an error. By being generic, we can require stricter traits be applied to our inputs and outputs.
