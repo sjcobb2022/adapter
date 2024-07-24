@@ -1,38 +1,12 @@
-use adapter::{Adapter, AdapterInput, AdapterOutput};
+extern crate adapter;
+extern crate extism;
 
-use extism::{FromBytes, Manifest, Plugin, ToBytes, Wasm};
+#[path = "./mod.rs"]
+mod extism_adapter;
 
-pub struct ExtismAdapter(Plugin);
-
-impl ExtismAdapter {
-    pub fn new(plugin: Plugin) -> Self {
-        Self(plugin)
-    }
-
-    pub fn from_url(url: &str) -> Result<Self, extism::Error> {
-        let url = Wasm::url(url);
-        let manifest = Manifest::new([url]);
-        let plugin = Plugin::new(manifest, [], true)?;
-        Ok(Self(plugin))
-    }
-}
-
-impl<'b, Input, Output> Adapter<'b, Input, Output> for ExtismAdapter
-where
-    Input: ToBytes<'b>,
-    Output: FromBytes<'b>,
-{
-    type Error = extism::Error;
-    type Identifier = &'b str;
-
-    fn call(
-        &'b mut self,
-        identifier: Self::Identifier,
-        input: Input,
-    ) -> Result<Output, Self::Error> {
-        self.0.call::<Input, Output>(identifier, input)
-    }
-}
+use adapter::Adapter;
+use extism::{Manifest, Plugin, Wasm};
+use extism_adapter::ExtismAdapter;
 
 #[cfg(test)]
 mod tests {
