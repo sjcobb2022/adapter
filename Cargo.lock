@@ -9,6 +9,7 @@ dependencies = [
  "extism",
  "libloading",
  "mlua",
+ "serde",
 ]
 
 [[package]]

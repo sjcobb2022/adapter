@@ -1,12 +1,16 @@
 use adapter::Adapter;
 
-use mlua::{prelude::*, AsChunk};
+use mlua::prelude::*;
 
 pub struct MLuaAdapter(pub Lua);
 
 impl MLuaAdapter {
     pub fn new() -> MLuaAdapter {
         MLuaAdapter(Lua::new())
+    }
+
+    pub fn from_lua(lua: Lua) -> MLuaAdapter {
+        MLuaAdapter(lua)
     }
 }
 
@@ -16,18 +20,20 @@ impl MLuaAdapter {
 /// implemented for the lifetime of the string reference. Given that we are binding to the lifetime of the adapter, we must assert that
 /// the identifier is valid for the lifetime of the adapter. This is why we use the `Identifier: for<'b> AsChunk<'b, 'a>` bound.
 /// By bounding
-impl<'a, Input, Output, Identifier> Adapter<'a, Input, Output, Identifier> for MLuaAdapter
+impl<'lua, Input, Output, Identifier> Adapter<'lua, Input, Output, Identifier> for MLuaAdapter
 where
-    Input: IntoLuaMulti<'a>,
-    Output: FromLuaMulti<'a>,
-    Identifier: AsChunk<'a, 'a>, // the output of AsChunk should have at least the lifetime of 'lua
-                                 // for AsChunk<'lua, 'a>. For other implementations, we do not
-                                 // care about the lifetime of 'lua and only the lifetime of 'a.
+    Input: IntoLuaMulti<'lua>,
+    Output: FromLuaMulti<'lua>,
+    Identifier: IntoLua<'lua>, // the output of AsChunk should have at least the lifetime of 'lua
+                               // for AsChunk<'lua, 'a>. For other implementations, we do not
+                               // care about the lifetime of 'lua and only the lifetime of 'a.
 {
     type Error = mlua::Error;
 
-    fn call(&'a mut self, identifier: Identifier, input: Input) -> Result<Output, Self::Error> {
-        let identifier = self.0.load(identifier).into_function()?;
-        identifier.call::<Input, Output>(input)
+    fn call(&'lua mut self, identifier: Identifier, input: Input) -> Result<Output, Self::Error> {
+        let lua = &self.0;
+        let globals = lua.globals();
+        let func: mlua::Function = globals.get(identifier)?;
+        func.call::<Input, Output>(input)
     }
 }
