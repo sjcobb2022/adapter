@@ -4,14 +4,12 @@ extern crate libloading;
 use adapter::Adapter;
 use libloading::{Library, Symbol};
 
-pub struct LibloadingAdapter {
-    library: Library,
-}
+pub struct LibloadingAdapter(pub Library);
 
 impl LibloadingAdapter {
-    fn from_path(path: &str) -> Result<Self, libloading::Error> {
+    pub fn from_path(path: &str) -> Result<Self, libloading::Error> {
         match unsafe { libloading::Library::new(path) } {
-            Ok(library) => Ok(Self { library }),
+            Ok(library) => Ok(Self(library)),
             Err(error) => Err(error),
         }
     }
@@ -25,16 +23,15 @@ where
 
     fn call(&'a mut self, identifier: Identifier, input: Input) -> Result<Output, Self::Error> {
         // may be a good idea to cache these.
-        let symbol: Symbol<fn(Input) -> Output> =
-            match unsafe { self.library.get(identifier.as_ref()) } {
-                Ok(symbol) => symbol,
-                Err(error) => return Err(error),
-            };
+        let symbol: Symbol<fn(Input) -> Output> = match unsafe { self.0.get(identifier.as_ref()) } {
+            Ok(symbol) => symbol,
+            Err(error) => return Err(error),
+        };
 
         Ok(symbol(input))
     }
 }
 
 fn main() {
-    println!("Unimplemeted");
+    unimplemented!()
 }

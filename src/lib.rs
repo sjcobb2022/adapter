@@ -13,28 +13,33 @@
 /// ```rust
 /// use adapter::Adapter;
 ///
-/// use mlua::{prelude::*, AsChunk};
+/// use mlua::prelude::*;
 ///
-/// struct MLuaAdapter {
-///     lua: Lua,
-/// }
+/// pub struct MLuaAdapter(pub Lua);
 ///
 /// impl MLuaAdapter {
-///     fn new() -> Self {
-///         MLuaAdapter { lua: Lua::new() }
+///     pub fn new() -> MLuaAdapter {
+///         MLuaAdapter(Lua::new())
+///     }
+///
+///     pub fn from_lua(lua: Lua) -> MLuaAdapter {
+///         MLuaAdapter(lua)
 ///     }
 /// }
 ///
-/// impl<'a, Input, Output, Identifier> Adapter<'a, Input, Output, Identifier> for MLuaAdapter
+/// impl<'lua, Input, Output, Identifier> Adapter<'lua, Input, Output, Identifier> for MLuaAdapter
 /// where
-///     Input: IntoLuaMulti<'a>,
-///     Output: FromLuaMulti<'a>,
-///     Identifier: for<'b> AsChunk<'b, 'a>,
+///     Input: IntoLuaMulti<'lua>,
+///     Output: FromLuaMulti<'lua>,
+///     Identifier: IntoLua<'lua>,
 /// {
 ///     type Error = mlua::Error;
 ///
-///     fn call(&'a mut self, identifier: Identifier, input: Input) -> Result<Output, Self::Error> {
-///         self.lua.load(identifier).call::<Input, Output>(input)
+///     fn call(&'lua mut self, identifier: Identifier, input: Input) -> Result<Output, Self::Error> {
+///         let lua = &self.0;
+///         let globals = lua.globals();
+///         let func: mlua::Function = globals.get(identifier)?;
+///         func.call::<Input, Output>(input)
 ///     }
 /// }
 /// ```
