@@ -18,4 +18,8 @@ pub trait Adapter<'a, Input, Output, Identifier> {
 }
 ```
 
-An adapter is generic over the input, output, identifier and error that is uses. It takes in an identifier and an input, and returns a result with the output or an error. By being generic, we can require stricter traits be applied to our inputs and outputs.
+An adapter is generic over the input, output, identifier that is uses. It must take the input, and an identifier, and return a result with the output and the error.
+
+Any restrictions for types must be applied in the implementation of the type (that is also probably generic over the input, output and identifier).
+
+When using multiple adapters, one must constrain the input, output and identifier to types that meet the requirements of all the adapter's in use. Common types for these may be `String` and `&str`.
