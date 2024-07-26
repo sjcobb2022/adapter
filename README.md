@@ -7,7 +7,7 @@ Adapter is a library meant for providing a standard interface for which one can 
 
 To see the thought process behind this, see [RAMBLINGS.md](./RAMBLINGS.md).
 
-The key concept of this library is the Adapter trait. It hinges on the idea that communicating with a foreign interface should be as simple as a function that has an input and an output. We use an identifier to determine the "endpoint" that we want to access.
+The key concept of this library is the Adapter trait. It hinges on the idea that communicating with a foreign interface should be as simple as a function that has an input and an output (similar to a tower service). We use an identifier to determine the "endpoint" that we want to access.
 
 
 ```rust
